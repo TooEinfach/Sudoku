@@ -1,5 +1,6 @@
 import pygame, sys
 from settings import * 
+from buttonClass import *
 
 class App:
     def __init__(self):
@@ -9,16 +10,24 @@ class App:
         self.grid = testBoard
         self.selected = None
         self.mousePos = None
+        self.state = "playing"
+        self.playingButtons = []
+        self.menuButtons = []
+        self.endButtons = []
+        self.loadButtons()
 
     def run(self):
         while self.running:
-            self.events()
-            self.update()
-            self.draw()
+            if self.state == "playing":
+                self.playing_events()
+                self.playing_update()
+                self.playing_draw()
         pygame.quit()
         sys.exit()
 
-    def events(self):
+##### Playing State Functions ######
+
+    def playing_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
@@ -30,15 +39,23 @@ class App:
                     print("not on board")
                     self.selected = None
 
-    def update(self):
+    def playing_update(self):
         self.mousePos = pygame.mouse.get_pos()
+        for button in self.playingButtons:
+            button.update(self.mousePos)
 
-    def draw(self):
+    def playing_draw(self):
         self.window.fill(WHITE)
+        
+        for button in self.playingButtons:
+            button.draw(self.window)
+
         if self.selected:
             self.drawselection(self.window, self.selected)
         self.drawGrid(self.window)
         pygame.display.update()
+
+#### Helper Fucntions ####
 
     def drawselection(self, window, pos):
          pygame.draw.rect(window, LIGHTBLUE, ((pos[0]*cellSize)+gridPos[0], (pos[1]*cellSize)+gridPos[1], cellSize, cellSize))
@@ -59,3 +76,6 @@ class App:
         if self.mousePos[0] > gridPos[0]+gridSize or self.mousePos[1] > gridPos[1]+gridSize:
             return False
         return ((self.mousePos[0]-gridPos[0])//cellSize, (self.mousePos[1]-gridPos[1])//cellSize)
+
+    def loadButtons(self):
+        self.playingButtons.append(Button(20, 40, 100, 40))
