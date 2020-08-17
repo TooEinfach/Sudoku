@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "C:\\Users\\white\\AppData\\Local\\Microsoft\\WindowsApps\\python.exe",
+    "python.pythonPath": "C:\\Users\\white\\AppData\\Local\\Programs\\Python\\Python38\\python.exe",
     "python.linting.pylintArgs": [
         "--extension-pkg-whitelist=pygame" // The extension is "lxml" not "1xml"
     ]
