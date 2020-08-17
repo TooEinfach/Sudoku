@@ -10,7 +10,6 @@ class App:
         self.window = pygame.display.set_mode((WIDTH, HEIGHT))
         self.running = True
         # self.grid = finishedBoard
-        self.grid = self.getPuzzle("4")
         self.selected = None
         self.mousePos = None
         self.state = "playing"
@@ -20,7 +19,8 @@ class App:
         self.lockedCells = []
         self.incorrectCells = []
         self.font = pygame.font.SysFont("arial", cellSize//2)
-        self.load()
+        self.grid = []
+        self.getPuzzle("4")
 
     def run(self):
         while self.running:
@@ -176,7 +176,8 @@ class App:
                 board[index//9][index%9] = int(cell['value'])
             except:
                 pass
-        return board
+        self.grid = board
+        self.load()
 
     def shadeIncorrectCells(self, window, incorrect):
         for cell in incorrect:
@@ -245,7 +246,11 @@ class App:
         window.blit(font, pos)
 
     def load(self):
+        self.playingButtons = []
         self.loadButtons()
+        self.lockedCells = []
+        self.incorrectCells = []
+        self.finished = False
 
         # Setting locked cels from orignial board
         for yidx, row in enumerate(self.grid):
