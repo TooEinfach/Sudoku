@@ -69,6 +69,7 @@ class App:
                 self.checkAllCells()
                 if len(self.incorrectCells) == 0:
                     self.finished = True
+                    print("you won")
 
 
     def playing_draw(self):
