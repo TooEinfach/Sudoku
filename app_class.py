@@ -114,7 +114,13 @@ class App:
                         else:
                             if [xidx, yidx] not in self.lockedCells and [xidx, yidx] not in self.incorrectCells:
                                 self.incorrectCells.append([xidx, yidx])
-                                print("Error for by small grid check")
+                            if [xidx, yidx] in self.lockedCells:
+                                for k in range(3):
+                                    for l in range(3):
+                                        xidx2 = x*3+k
+                                        yidx2 = y*3+l
+                                        if self.grid[yidx2][xidx2] == self.grid[yidx][xidx] and [xidx2, yidx2] not in self.lockedCells:
+                                            self.incorrectCells.append([xidx2, yidx2])
 
     def checkRows(self):
         for yidx, row  in enumerate(self.grid):
@@ -125,6 +131,10 @@ class App:
                 else:
                     if [xidx, yidx] not in self.lockedCells and [xidx, yidx] not in self.incorrectCells:
                         self.incorrectCells.append([xidx, yidx])
+                    if [xidx, yidx] in self.lockedCells:
+                        for k in range(9):
+                            if self.grid[yidx][k] == self.grid[yidx][xidx] and [k, yidx] not in self.lockedCells:
+                                self.incorrectCells.append([k, yidx])
 
     def checkCol(self):
         for xidx in range(9):
@@ -135,6 +145,10 @@ class App:
                 else:
                     if [xidx, yidx] not in self.lockedCells and [xidx, yidx] not in self.incorrectCells:
                         self.incorrectCells.append([xidx, yidx])
+                    if [xidx, yidx] in self.lockedCells:
+                        for k, row in enumerate(self.grid):
+                            if self.grid[k][xidx] == self.grid[yidx][xidx] and [xidx, k] not in self.lockedCells:
+                                self.incorrectCells.append([xidx, k])
 
 #### Helper Fucntions ####
 
