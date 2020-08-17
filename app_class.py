@@ -44,8 +44,10 @@ class App:
                 if selected:
                     self.selected = selected
                 else:
-                    print("not on board")
                     self.selected = None
+                    for button in self.playingButtons:
+                        if button.highlighted:
+                            button.click()
 
             # User types a key
             if event.type == pygame.KEYDOWN:
@@ -66,7 +68,7 @@ class App:
                 # check if board is correct
                 self.checkAllCells()
                 if len(self.incorrectCells) == 0:
-                    print("Congratulations!!")
+                    self.finished = True
 
 
     def playing_draw(self):
@@ -208,7 +210,31 @@ class App:
         return ((self.mousePos[0]-gridPos[0])//cellSize, (self.mousePos[1]-gridPos[1])//cellSize)
 
     def loadButtons(self):
-        self.playingButtons.append(Button(20, 40, 100, 40))
+        # self.playingButtons.append(Button(20, 40, 100, 40))
+        self.playingButtons.append(Button(20, 40, WIDTH/7, 40,
+                                            function=self.checkAllCells,
+                                            colour=(27,142,207),
+                                            text="Check"))
+        self.playingButtons.append(Button(  140, 40, WIDTH//7, 40,
+                                            colour=(117,172,112),
+                                            function=self.getPuzzle,
+                                            params="1",
+                                            text="Easy"))
+        self.playingButtons.append(Button(  WIDTH//2-(WIDTH//7)//2, 40, WIDTH//7, 40,
+                                            colour=(204,197,110),
+                                            function=self.getPuzzle,
+                                            params="2",
+                                            text="Medium"))
+        self.playingButtons.append(Button( 380, 40, WIDTH//7, 40,
+                                            colour=(199,129,48),
+                                            function=self.getPuzzle,
+                                            params="3",
+                                            text="Hard"))
+        self.playingButtons.append(Button(  500, 40, WIDTH//7, 40,
+                                            colour=(207,68,68),
+                                            function=self.getPuzzle,
+                                            params="4",
+                                            text="Evil"))
 
     def textToScreen(self, window, text, pos):
         font = self.font.render(text, False, BLACK)

@@ -12,6 +12,8 @@ class Button:
         self.function = function
         self.params = params
         self.highlighted = False
+        self.width = width
+        self.height = height
 
     def update(self, mouse):
         if self.rect.collidepoint(mouse):
@@ -21,8 +23,24 @@ class Button:
     
     def draw(self, window):
         self.image.fill(self.highlightedColour if self.highlighted else self.colour)
+        if self.text:
+            self.drawText(self.text)
         # if self.highlighted:
         #     self.image.fill(self.highlightedColour)
         # else:
         #     self.image.fill(self.colour)
         window.blit(self.image, self.pos)
+
+    def click(self):
+        if self.params:
+            self.function(self.params)
+        else:
+            self.function()
+
+    def drawText(self, text):
+        font = pygame.font.SysFont("arial", 20, bold=1)
+        font.render(text, False, (0,0,0))
+        width, height = text.get_size()
+        x = (self.width-width)//2
+        y = (self.height-height)//2
+        self.image.blit(text, (x, y))
