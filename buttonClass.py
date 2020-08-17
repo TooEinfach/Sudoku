@@ -39,8 +39,8 @@ class Button:
 
     def drawText(self, text):
         font = pygame.font.SysFont("arial", 20, bold=1)
-        font.render(text, False, (0,0,0))
-        width, height = text.get_size()
+        text = font.render(text, False, (0,0,0))
+        width, height = text.get_size()        
         x = (self.width-width)//2
         y = (self.height-height)//2
         self.image.blit(text, (x, y))
